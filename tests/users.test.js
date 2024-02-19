@@ -57,6 +57,7 @@ describe("POST /api/users", () => {
     const [userInDatabase] = result;
     expect(userInDatabase).toHaveProperty("id");
     expect(userInDatabase).toHaveProperty("firstname");
+    expect(userInDatabase).toHaveProperty("lastname");
     expect(userInDatabase.firstname).toStrictEqual(newUser.firstname);
   });
   it("should return an error", async () => {
