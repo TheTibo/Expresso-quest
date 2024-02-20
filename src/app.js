@@ -12,6 +12,9 @@ app.get("/api/movies/:id", movieControllers.getMovieById);
 app.get("/api/users", userControllers.getUsers);
 app.get("/api/users/:id", userControllers.getUsersbyId);
 
+app.delete("/api/movies/:id", movieControllers.deleteMovie);
+app.delete("/api/users/:id", userControllers.deleteUser);
+
 const validateMovie = require("./middlewares/validateMovie");
 const validateUser = require("./middlewares/validateUser");
 

@@ -1,4 +1,5 @@
 const database = require("../../database");
+const { param } = require("../app");
 
 const getUsers = (req, res) => {
   database
@@ -73,9 +74,27 @@ const updateUser = (req, res) => {
     });
 };
 
+const deleteUser = (req, res) => {
+  const id = parseInt(req.params.id);
+  database
+    .query("delete from users where id = ?", [id])
+    .then(([result]) => {
+      if (result.affectedRows === 0) {
+        res.sendStatus(404);
+      } else {
+        res.sendStatus(204);
+      }
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
+};
+
 module.exports = {
   getUsers,
   getUsersbyId,
   postUsers,
   updateUser,
+  deleteUser,
 };
