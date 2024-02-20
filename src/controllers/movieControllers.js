@@ -106,6 +106,8 @@ const updateMovie = (req, res) => {
     });
 };
 
+
+
 module.exports = {
   getMovies,
   getMovieById,
