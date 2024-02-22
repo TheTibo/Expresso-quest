@@ -172,12 +172,12 @@ describe("DELETE /api/users", () => {
       language: "11111CSS1111111111111111",
     };
 
-    const response = await request(app).post("/api/users/0").send(newUser);
+    const response = await request(app).post("/api/users").send(newUser);
     expect(response.body).toHaveProperty("id");
     const { id } = response.body;
     const deleteResponse = await request(app).delete(`/api/users/${id}`);
     expect(deleteResponse.status).toEqual(204);
-    expect(typeof response.body.id).toBe("Number");
+    expect(typeof response.body.id).toBe("number");
     const [] = await database.query("SELECT * FROM users WHERE id=?", id);
   });
   it("should return an error", async () => {
