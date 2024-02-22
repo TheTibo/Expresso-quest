@@ -157,3 +157,31 @@ describe("PUT /api/users/:id", () => {
     expect(response.status).toEqual(404);
   });
 });
+
+describe("DELETE /api/users", () => {
+  it("should delete a user", async () => {
+    const newUser = {
+      firstname: "121212AxoGomarr111111111",
+
+      lastname: "11111Gang1111111111111",
+
+      email: `${crypto.randomUUID()}@wild.co`,
+
+      city: "111111Wild111111111111111",
+
+      language: "11111CSS1111111111111111",
+    };
+
+    const response = await request(app).post("/api/users/0").send(newUser);
+    expect(response.body).toHaveProperty("id");
+    const { id } = response.body;
+    const deleteResponse = await request(app).delete(`/api/users/${id}`);
+    expect(deleteResponse.status).toEqual(204);
+    expect(typeof response.body.id).toBe("Number");
+    const [] = await database.query("SELECT * FROM users WHERE id=?", id);
+  });
+  it("should return an error", async () => {
+    const response = await request(app).delete("/api/users/121212");
+    expect(response.status).toEqual(404);
+  });
+});

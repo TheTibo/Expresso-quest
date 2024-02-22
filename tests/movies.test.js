@@ -183,3 +183,28 @@ describe("PUT /api/movies/:id", () => {
     expect(response.status).toEqual(404);
   });
 });
+
+describe("DELETE /api/movies", () => {
+  it("should delete a movie", async () => {
+    const newMovie = {
+      title: "Star Wars",
+      director: "George Lucas",
+      year: "1977",
+      color: "1",
+      duration: 120,
+    };
+
+    const response = await request(app).post("/api/movies").send(newMovie);
+    expect(response.body).toHaveProperty("id");
+    const { id } = response.body;
+    const deleteResponse = await request(app).delete(`/api/movies/${id}`);
+    expect(deleteResponse.status).toEqual(204);
+    expect(typeof response.body.id).toBe("number");
+    const [] = await database.query("SELECT * FROM movies WHERE id=?", id);
+  });
+  it("should return an error", async () => {
+    const response = await request(app).delete("/api/movies/1869119");
+
+    expect(response.status).toEqual(404);
+  });
+});
